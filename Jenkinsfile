@@ -13,8 +13,13 @@ pipeline {
             }
         }
         stage('three') {
+            when {
+                branch 'master'
+                changeset "**/worker/**"
+            }
             steps {
                 echo 'step 3'
+                sleep(time: 5, unit: 'SECONDS')
             }
         }
     }
