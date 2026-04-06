@@ -1,28 +1,35 @@
 pipeline {
-    agent any          
+  agent any
 
-    stages{
-        stage("one"){
-            steps{
-                 echo 'step 1'
-            }
-        }
-        stage("two"){
-            steps{
-                 echo 'step 2'
-            }
-        }
-        stage("three"){
-            steps{
-                 echo 'step 3'
-            }
-        }
-    }       
-    post{         
+  stages{
+      stage("one"){
+          steps{
+              echo 'step 1'
+              sleep 3
+          }
+      }
+      stage("two"){
+          steps{
+              echo 'step 2'
+              sleep 9
+          }
+      }
+      stage("three"){ 
 
-        always{      
+          when{
+            branch 'master'
+            changeset "**/worker/**"
+            }
+              steps{
+                  echo 'step 3'
+                  sleep 5
+              }
+          }
+      } 
 
-             echo 'This pipeline is completed.'
-        }
+  post{
+    always{
+        echo 'This pipeline is completed.'
     }
+  }
 }
